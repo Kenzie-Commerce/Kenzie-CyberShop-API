@@ -1,2 +1,2 @@
 # kenzie-commerce-api
-Parte backend do projeto final do M6.
+Parte backend do projeto final do M5.
