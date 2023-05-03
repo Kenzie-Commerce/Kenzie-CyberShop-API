@@ -13,6 +13,7 @@ djangorestframework-simplejwt = "^5.2.2"
 drf-spectacular = "^0.26.2"
 python-dotenv = "^1.0.0"
 dj-database-url = "^2.0.0"
+django = "^4.2.1"
 
 
 [tool.poetry.group.dev.dependencies]
