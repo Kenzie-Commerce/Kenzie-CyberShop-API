@@ -2,7 +2,7 @@ from rest_framework import serializers
 from products.models import Product
 
 
-class productSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = "__all__"
@@ -11,5 +11,12 @@ class productSerializer(serializers.ModelSerializer):
             "seller_id",
         ]
 
-    def create(self, validated_data):
+    def create(self, validated_data: dict):
         return Product.objects.create(**validated_data)
+
+    def update(self, instance: Product, validated_data: dict):
+        if validated_data["stock"] > 0:
+            instance.is_avaliable = True
+        else:
+            instance.is_avaliable = False
+        return super().update(instance, validated_data)
