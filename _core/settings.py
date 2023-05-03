@@ -38,6 +38,7 @@ THIRD_APPS_PARTY = [
 ]
 
 DJANGO_APPS = [
+    "django_filters",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -87,7 +88,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "_core.wsgi.application"
 
-
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
+}
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
