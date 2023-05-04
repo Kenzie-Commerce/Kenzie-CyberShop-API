@@ -13,7 +13,7 @@ class AddressSerializer(serializers.ModelSerializer):
             "district",
             "user",
         ]
-        read_only_fields = ["complement"]
+        read_only_fields = ["complement", "user"]
 
     def create(self, validated_data: dict) -> Address:
         return Address.objects.create(**validated_data)
