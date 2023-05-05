@@ -39,7 +39,7 @@ class Command(BaseCommand):
         elif email_exists:
             raise CommandError(f"Email `{email}` already taken.")
         else:
-            User.objects.create_superuser(
+            User.objects.create_user(
                 username=username,
                 password=password,
                 email=email,
