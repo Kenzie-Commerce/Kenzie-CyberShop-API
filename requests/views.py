@@ -1,4 +1,7 @@
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from requests.models import Request
@@ -10,23 +13,19 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
-# Create your views here.
 class RequestViews(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     queryset = Request.objects.all()
-    serializer_class = RequestSerializer(many=True)
+    serializer_class = RequestSerializer
 
     def perform_create(self, serializer):
-        # ipdb.set_trace()
         return serializer.save(
             product=self.request.data.get("product"),
             user=self.request.user,
         )
 
-    # def create(self, request, *args, **kwargs):
-    #     return Response(status=status.HTTP_201_CREATED)
 
 # class RequestDetailViews(RetrieveUpdateDestroyAPIView):
 #     authentication_classes = [JWTAuthentication]
