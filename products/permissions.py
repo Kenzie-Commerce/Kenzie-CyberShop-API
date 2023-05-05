@@ -5,12 +5,11 @@ from rest_framework.views import View
 
 
 class IsSeller(permissions.BasePermission):
-    def has_permission(self, request: Request, view: View):
-        return bool(
-            request.method == "GET"
-            or request.user.is_superuser
-            or request.user.is_seller
-        )
+    def has_permission(self, request: Request, view: View) -> bool:
+        if request.method == "GET":
+            return True
+
+        return bool(request.user.is_superuser or request.user.is_seller)
 
 
 class isSellerOwner(permissions.BasePermission):
@@ -19,5 +18,8 @@ class isSellerOwner(permissions.BasePermission):
         request: Request,
         view: View,
         obj: Product,
-    ):
+    ) -> bool:
+        if request.method == "GET":
+            return True
+
         return bool(request.user == obj.seller_id)
