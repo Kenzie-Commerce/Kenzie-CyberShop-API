@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Address",
+            name="Order",
             fields=[
                 (
                     "id",
@@ -22,10 +22,19 @@ class Migration(migrations.Migration):
                         serialize=False,
                     ),
                 ),
-                ("street", models.CharField(max_length=50)),
-                ("number", models.CharField(max_length=8)),
-                ("complement", models.TextField(null=True)),
-                ("district", models.CharField(max_length=50)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("Order placed", "Order Placed"),
+                            ("In progress", "In Progress"),
+                            ("Delivered", "Delivered"),
+                        ],
+                        default="Order placed",
+                        max_length=20,
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]

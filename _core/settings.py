@@ -54,7 +54,7 @@ MY_APPS = [
     "users",
     "carts",
     "products",
-    "requests",
+    "orders",
     "addresses",
 ]
 
@@ -94,6 +94,7 @@ WSGI_APPLICATION = "_core.wsgi.application"
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "PAGE_SIZE": 20,
 }
 # Database
@@ -156,12 +157,19 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AUTH_USER_MODEL = "users.User"
 
 SPECTACULAR_SETTINGS = {
-    "TITLE": "Kenzie Commerce",
+    "TITLE": "Kenzie CyberShop",
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
-EMAIL_HOST = os.getenv("EMAIL_HOST")
-EMAIL_PORT = os.getenv("EMAIL_PORT")
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST = os.getenv("EMAIL_HOST") or "smtp.gmail.com"
+EMAIL_PORT = os.getenv("EMAIL_PORT") or "587"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER") or "fsilva.lucassamuel@gmail.com"
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD") or "azskwmedhguhdtiv"
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Kenzie CyberShop",
+    "DESCRIPTION": "Project - M5",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}

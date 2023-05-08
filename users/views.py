@@ -9,7 +9,11 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
 class UserView(CreateAPIView):
+    queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def perform_create(self, serializer):
+        return serializer.save()
 
 
 class UserDetailView(RetrieveUpdateDestroyAPIView):

@@ -3,7 +3,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from users.views import UserView, UserDetailView
 from addresses.views import AddressView, AddressDetailView
 from carts.views import CartListView
-from requests.views import RequestViews, RequestDetailViews
+from orders.views import OrderViews, OrderDetailViews
 
 urlpatterns = [
     path("users/", UserView.as_view()),
@@ -13,6 +13,6 @@ urlpatterns = [
     path("users/address/", AddressView.as_view()),
     path("users/address/<str:address_id>/", AddressDetailView.as_view()),
     path("users/cart/", CartListView.as_view()),
-    path("users/requests/", RequestViews.as_view()),
-    path("users/requests/<str:request_id>/", RequestDetailViews.as_view()),
+    path("users/orders/", OrderViews.as_view()),
+    path("users/orders/<str:orders_id>/", OrderDetailViews.as_view()),
 ]

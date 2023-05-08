@@ -6,7 +6,15 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["id", "email", "username", "password", "is_superuser", "is_seller"]
+        fields = [
+            "id",
+            "email",
+            "username",
+            "password",
+            "first_name",
+            "last_name",
+            "is_seller",
+        ]
         extra_kwargs = {
             "email": {
                 "validators": [
@@ -27,15 +35,15 @@ class UserSerializer(serializers.ModelSerializer):
             },
         }
 
-        def create(self, validated_data: dict) -> User:
-            if validated_data["is_superuser"]:
-                return User.objects.create_superuser(**validated_data)
-            else:
-                return User.objects.create_user(**validated_data)
+    def create(self, validated_data: dict) -> User:
+        return User.objects.create_user(**validated_data)
 
-        def update(self, instance: User, validated_data: dict):
-            instance.set_password(validated_data.get("password"))
-            instance.is_seller = validated_data.get("is_seller", instance.is_seller)
+    def update(self, instance: User, validated_data: dict):
+        instance.set_password(validated_data.get("password"))
+        instance.is_seller = validated_data.get(
+            "is_seller",
+            instance.is_seller,
+        )
 
-            instance.save()
-            return instance
+        instance.save()
+        return instance

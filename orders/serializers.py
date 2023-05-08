@@ -1,10 +1,9 @@
 from rest_framework import serializers
-from requests.models import Request
+from orders.models import Order
 from products.models import Product
-import ipdb
 
 
-class ProductsRequestSerializer(serializers.ModelSerializer):
+class ProductsOrdersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = [
@@ -17,22 +16,22 @@ class ProductsRequestSerializer(serializers.ModelSerializer):
         ]
 
 
-class RequestSerializer(serializers.ModelSerializer):
-    product = ProductsRequestSerializer(read_only=True)
+class OrderSerializer(serializers.ModelSerializer):
+    product = ProductsOrdersSerializer(read_only=True)
 
     class Meta:
-        model = Request
+        model = Order
         fields = "__all__"
         read_only_fields = ["id", "created_at", "user", "seller"]
 
-    def create(self, validated_data: list[dict]) -> Request:
+    def create(self, validated_data: list[dict]) -> Order:
         list_product = validated_data.get("product")
         list_created = []
 
         for prod in list_product:
             product = Product.objects.get(id=prod["id"])
             list_created.append(
-                Request.objects.create(
+                Order.objects.create(
                     product=product,
                     user=validated_data["user"],
                     seller=product.seller_id,
@@ -50,6 +49,6 @@ class RequestSerializer(serializers.ModelSerializer):
             for i in instance:
                 representation.append(super().to_representation(i))
 
-            return {"Request": representation}
+            return {"Orders": representation}
 
         return super().to_representation(instance)

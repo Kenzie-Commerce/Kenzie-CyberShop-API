@@ -4,20 +4,19 @@ from rest_framework.generics import (
 )
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
-from requests.models import Request
-from requests.serializers import RequestSerializer
+from orders.models import Order
+from orders.serializers import OrderSerializer
 from django.core.mail import send_mail
 from django.conf import settings
-from requests.models import Request
 from users.models import User
 
 
-class RequestViews(ListCreateAPIView):
+class OrderViews(ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    queryset = Request.objects.all()
-    serializer_class = RequestSerializer
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
     def perform_create(self, serializer):
         product = self.request.data.get("product")
@@ -27,7 +26,7 @@ class RequestViews(ListCreateAPIView):
             seller = User.objects.get(id=prod["seller_id"])
 
             send_mail(
-                subject="Pedido recebido",
+                subject="Kenzie CyberShop",
                 message=f"O usuário com email {self.request.user.email} \
 comprou o produto {product_name}",
                 from_email=settings.EMAIL_HOST_USER,
@@ -36,7 +35,7 @@ comprou o produto {product_name}",
             )
 
         send_mail(
-            subject=f"Kenzie Commerce",
+            subject=f"Kenzie CyberShop",
             message=f"Obrigado por comprar conosco!",
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[f"{self.request.user.email}"],
@@ -49,20 +48,20 @@ comprou o produto {product_name}",
         )
 
 
-class RequestDetailViews(RetrieveUpdateDestroyAPIView):
+class OrderDetailViews(RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
-    queryset = Request.objects.all()
-    serializer_class = RequestSerializer
-    lookup_url_kwarg = "request_id"
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    lookup_url_kwarg = "order_id"
 
     def perform_update(self, serializer):
-        request = Request.objects.get(id=self.kwargs["request_id"])
+        request = Order.objects.get(id=self.kwargs["order_id"])
         status = self.request.data["status"]
 
         send_mail(
-            subject="Status do pedido",
+            subject="Kenzie CyberShop",
             message=f"O status do seu pedido foi alterado para {status}",
             from_email=settings.EMAIL_HOST_USER,
             recipient_list=[f"{request.user.email}"],
