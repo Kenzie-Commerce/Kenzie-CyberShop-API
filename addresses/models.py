@@ -10,9 +10,10 @@ class Address(models.Model):
     number = models.CharField(max_length=8)
     complement = models.TextField(null=True)
     district = models.CharField(max_length=50)
+    default = models.BooleanField(default=False)
 
     user = models.ForeignKey(
         "users.User",
-        related_name="Addresses",
+        related_name="addresses",
         on_delete=models.CASCADE,
     )
