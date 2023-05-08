@@ -25,3 +25,6 @@ class AddressDetailView(RetrieveUpdateDestroyAPIView):
 
     queryset = Address.objects.all()
     serializer_class = AddressSerializer
+
+    def perform_update(self, serializer):
+        return serializer.save(user=self.request.user)

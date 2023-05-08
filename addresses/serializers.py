@@ -11,9 +11,24 @@ class AddressSerializer(serializers.ModelSerializer):
             "number",
             "complement",
             "district",
+            "default",
             "user",
         ]
         read_only_fields = ["complement", "user"]
 
     def create(self, validated_data: dict) -> Address:
-        return Address.objects.create(**validated_data)
+        user = validated_data["user"]
+
+        if not user.addresses.count():
+            return Address.objects.create(**validated_data, default=True)
+        else:
+            return Address.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        user = validated_data["user"]
+
+        address = Address.objects.get(user=user.id, default=True)
+        address.default = False
+        address.save()
+
+        return super().update(instance, validated_data)
