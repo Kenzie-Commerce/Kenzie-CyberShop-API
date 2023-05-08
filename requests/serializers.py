@@ -42,7 +42,14 @@ class RequestSerializer(serializers.ModelSerializer):
         return list_created
 
     def to_representation(self, instance):
-        representation = []
-        for i in instance:
-            representation.append(super().to_representation(i))
-        return {"Request": representation}
+        method = self.context["request"].method
+
+        if method == "POST":
+            representation = []
+
+            for i in instance:
+                representation.append(super().to_representation(i))
+
+            return {"Request": representation}
+
+        return super().to_representation(instance)
