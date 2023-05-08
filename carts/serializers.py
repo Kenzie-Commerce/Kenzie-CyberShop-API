@@ -12,6 +12,8 @@ class CartProductSerializer(serializers.ModelSerializer):
             "name",
             "value",
             "category",
+            "description",
+            "seller_id",
         ]
 
 
