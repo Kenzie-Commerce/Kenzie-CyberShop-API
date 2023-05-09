@@ -1,14 +1,17 @@
 from users.models import User
 from users.serializers import UserSerializer
-from rest_framework.generics import (
-    CreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
+from rest_framework.generics import RetrieveUpdateDestroyAPIView, ListCreateAPIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticatedOrReadOnly
+)
+from users.permissions import IsSuperuserOrCreate
 
 
-class UserView(CreateAPIView):
+class UserView(ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsSuperuserOrCreate]
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
 

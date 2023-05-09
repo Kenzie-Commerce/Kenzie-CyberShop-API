@@ -14,5 +14,5 @@ urlpatterns = [
     path("users/address/<str:address_id>/", AddressDetailView.as_view()),
     path("users/cart/", CartListView.as_view()),
     path("users/orders/", OrderViews.as_view()),
-    path("users/orders/<str:orders_id>/", OrderDetailViews.as_view()),
+    path("users/orders/<str:order_id>/", OrderDetailViews.as_view()),
 ]
