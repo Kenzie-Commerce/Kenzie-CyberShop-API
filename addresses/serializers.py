@@ -27,8 +27,9 @@ class AddressSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         user = validated_data["user"]
 
-        address = Address.objects.get(user=user.id, default=True)
-        address.default = False
-        address.save()
+        if validated_data.get("default"):
+            address = Address.objects.get(user=user.id, default=True)
+            address.default = False
+            address.save()
 
         return super().update(instance, validated_data)
